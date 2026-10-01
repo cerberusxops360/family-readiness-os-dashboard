@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 import { NextRequest, NextResponse } from 'next/server'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY ?? 'build_placeholder')
 
 async function unsubscribe(email: string) {
   if (!email) return false

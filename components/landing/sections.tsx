@@ -6,7 +6,7 @@ export function Hero() {
     <section className="mx-auto max-w-3xl px-5 pt-16 text-center sm:pt-24">
       <p className="inline-flex items-center gap-2 rounded-full border bg-card px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
         <ShieldCheck className="size-3.5 text-primary" aria-hidden="true" />
-        Family Readiness OS · Notion template
+        Family Readiness OS - Notion template
       </p>
       <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
         The family emergency system built the way special operations plans for{' '}
@@ -30,8 +30,8 @@ export function Hero() {
 }
 
 const FAILURES = [
-  { icon: FileWarning, title: 'Scattered', body: 'Passports in a drawer, policy in an inbox, routes in someone’s head. Every database here links to the others.' },
-  { icon: RefreshCw, title: 'Never updated', body: 'Expiring documents, stale water, and un-drilled procedures surface automatically in “Needs attention.”' },
+  { icon: FileWarning, title: 'Scattered', body: "Passports in a drawer, policy in an inbox, routes in someone's head. Every database here links to the others." },
+  { icon: RefreshCw, title: 'Never updated', body: 'Expiring documents, stale water, and un-drilled procedures surface automatically in "Needs attention."' },
   { icon: Copy, title: 'Too long to use', body: 'In the moment, nobody reads a binder. One tap on a scenario collapses everything into a single go card.' },
 ]
 
@@ -54,67 +54,45 @@ export function WhyPlansFail() {
   )
 }
 
-const TIERS = [
-  {
-    name: 'Core',
-    price: '$29–39',
-    note: 'one-time',
-    items: ['Critical document vault', 'Emergency contact tree', 'Evacuation routes & rally points', 'Gear inventory + go-bag checklist'],
-  },
-  {
-    name: 'Complete',
-    price: '$59–79',
-    note: 'one-time',
-    featured: true,
-    items: ['Everything in Core', 'Printable PDF binder', 'Multi-property support', 'Pet & elderly-dependent modules', 'Quarterly review prompts'],
-  },
-  {
-    name: 'Family Command',
-    price: '$19',
-    note: 'per year · add-on',
-    items: ['Annual update prompts', 'New disaster-type checklists', 'Priority support'],
-  },
+const FEATURES = [
+  'Critical document vault',
+  'Emergency contact tree',
+  'Evacuation routes & rally points',
+  'Gear inventory + go-bag checklist',
+  'Family SOPs with drill history',
 ]
 
 export function Pricing() {
   return (
-    <section aria-labelledby="pricing-title" className="mx-auto max-w-5xl px-5 pb-20">
+    <section aria-labelledby="pricing-title" className="mx-auto max-w-2xl px-5 pb-20">
       <div className="text-center">
         <h2 id="pricing-title" className="text-3xl font-semibold tracking-tight">
           Launch pricing
         </h2>
-        <p className="mt-2 text-sm text-muted-foreground">Final prices lock at launch. Waitlist members get 25% off any tier.</p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          One-time payment, yours to keep. Waitlist members get 25% off with their code at checkout.
+        </p>
       </div>
-      <div className="mt-10 grid gap-4 md:grid-cols-3">
-        {TIERS.map((tier) => (
-          <div
-            key={tier.name}
-            className={
-              tier.featured
-                ? 'relative rounded-xl border border-primary/50 bg-card p-6 ring-1 ring-primary/20'
-                : 'rounded-xl border bg-card/60 p-6'
-            }
-          >
-            {tier.featured && (
-              <span className="absolute -top-2.5 left-6 rounded-full bg-primary px-2 py-0.5 text-[11px] font-medium text-primary-foreground">
-                Most complete
-              </span>
-            )}
-            <h3 className="font-medium">{tier.name}</h3>
-            <p className="mt-3 flex items-baseline gap-1.5">
-              <span className="text-3xl font-semibold tabular-nums">{tier.price}</span>
-              <span className="text-xs text-muted-foreground">{tier.note}</span>
-            </p>
-            <ul className="mt-5 space-y-2 text-sm">
-              {tier.items.map((item) => (
-                <li key={item} className="flex gap-2">
-                  <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-                  <span className="text-muted-foreground">{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+      <div className="mt-10 rounded-xl border border-primary/50 bg-card p-8 text-center ring-1 ring-primary/20">
+        <h3 className="font-medium">Family Readiness OS</h3>
+        <p className="mt-3 flex items-baseline justify-center gap-1.5">
+          <span className="text-4xl font-semibold tabular-nums">$79</span>
+          <span className="text-xs text-muted-foreground">one-time</span>
+        </p>
+        <ul className="mx-auto mt-6 max-w-xs space-y-2 text-left text-sm">
+          {FEATURES.map((item) => (
+            <li key={item} className="flex gap-2">
+              <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+              <span className="text-muted-foreground">{item}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href="/api/checkout"
+          className="mt-7 inline-flex w-full items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90 sm:w-auto sm:px-8"
+        >
+          Buy now - $79
+        </a>
       </div>
       <p className="mt-6 flex items-center justify-center gap-2 text-xs text-muted-foreground">
         <CircleDollarSign className="size-3.5" aria-hidden="true" />
@@ -147,8 +125,9 @@ export function Footer() {
           Not affiliated with, endorsed by, or sponsored by the U.S. Navy, the Department of Defense, or any government
           agency. Notion is a trademark of Notion Labs, Inc.
         </p>
-        <p>© 2026 Family Readiness OS</p>
+        <p>(c) 2026 Family Readiness OS</p>
       </div>
     </footer>
   )
 }
+

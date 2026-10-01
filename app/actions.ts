@@ -6,7 +6,7 @@ export type WaitlistState = { status: 'idle' | 'success' | 'error'; message: str
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const resend = new Resend(process.env.RESEND_API_KEY ?? 'build_placeholder')
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'waitlist@pointman360.com'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://family-readiness-os-dashboard.vercel.app'
 
