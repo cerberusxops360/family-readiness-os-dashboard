@@ -1,6 +1,7 @@
 'use server'
 
 import { Resend } from 'resend'
+import { PRODUCT_CODES, formatPrice, getProduct } from '@/lib/catalog'
 
 export type WaitlistState = { status: 'idle' | 'success' | 'error'; message: string }
 
@@ -12,6 +13,12 @@ const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'waitlist@fieldready.co'
 
 export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Promise<WaitlistState> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
+  const reserved = String(formData.get('items') ?? '')
+    .split(',')
+    .map((code) => code.trim())
+    .filter((code) => PRODUCT_CODES.has(code))
+    .slice(0, PRODUCT_CODES.size)
+    .map((code) => getProduct(code)!)
 
   if (!EMAIL_PATTERN.test(email) || email.length > 254) {
     return { status: 'error', message: 'Enter a valid email address.' }
@@ -47,6 +54,9 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
         "You're on the waitlist for Family Readiness OS.",
         '',
         "We'll email you the moment it's ready, with your 25% launch discount already reserved.",
+        ...(reserved.length
+          ? ['', 'Your reserved cart:', ...reserved.map((p) => `- ${p.name} (${p.code}) ${formatPrice(p)}`)]
+          : []),
         '',
         '— Field Ready Co.',
       ].join('\n'),
@@ -61,5 +71,10 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
     return { status: 'error', message: 'Something went wrong on our end. Try again in a moment.' }
   }
 
-  return { status: 'success', message: "You're on the list. Your 25% launch discount is reserved." }
+  return {
+    status: 'success',
+    message: reserved.length
+      ? `Cart reserved. We'll email ${email} your checkout link with 25% off at launch.`
+      : "You're on the list. Your 25% launch discount is reserved.",
+  }
 }

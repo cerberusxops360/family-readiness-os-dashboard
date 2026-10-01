@@ -1,15 +1,15 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { IBM_Plex_Mono, Inter } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({ subsets: ['latin'], variable: '--font-geist-sans' })
-const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const plexMono = IBM_Plex_Mono({ subsets: ['latin'], weight: ['400', '500', '600'], variable: '--font-plex-mono' })
 
 export const metadata: Metadata = {
-  title: 'Family Readiness OS — Your family emergency system in Notion',
+  title: 'Field Ready — Family readiness systems you can actually run',
   description:
-    'Documents, contacts, evacuation routes, go-bags and family procedures in one Notion home page. Pick a scenario and see exactly what to grab, who to call, and where to go.',
+    'Family Readiness OS for Notion, plus field guides and print kits that turn special-operations planning discipline into a household plan: documents, contacts, routes, go-bags and drills.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
-  themeColor: '#151b28',
+  colorScheme: 'dark light',
+  themeColor: '#08121c',
 }
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} bg-background`}>
+    <html lang="en" className={`${inter.variable} ${plexMono.variable} bg-background`}>
       <body className="antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
