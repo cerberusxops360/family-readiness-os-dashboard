@@ -8,6 +8,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'waitlist@pointman360.com'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://family-readiness-os-dashboard.vercel.app'
 
 export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Promise<WaitlistState> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
@@ -38,6 +39,7 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
 
     // Confirmation email. Failure here should not block the signup itself --
     // the contact is already saved either way.
+    const unsubscribeUrl = `${SITE_URL}/api/unsubscribe?email=${encodeURIComponent(email)}`
     const { error: sendError } = await resend.emails.send({
       from: `Pointman360 <${FROM_EMAIL}>`,
       to: email,
@@ -49,6 +51,14 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
         '',
         '-- Pointman360',
       ].join('\n'),
+      headers: {
+        // RFC 2369 / 8058 one-click unsubscribe. Mail clients (Gmail, Outlook)
+        // surface their own "Unsubscribe" affordance when both headers are
+        // present, and treating this as a real list cuts down on spam-folder
+        // routing for a brand-new sending domain.
+        'List-Unsubscribe': `<${unsubscribeUrl}>, <mailto:unsubscribe@pointman360.com?subject=unsubscribe>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+      },
     })
 
     if (sendError) {
