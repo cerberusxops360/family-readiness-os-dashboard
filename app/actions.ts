@@ -7,7 +7,7 @@ export type WaitlistState = { status: 'idle' | 'success' | 'error'; message: str
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'waitlist@fieldready.co'
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? 'waitlist@pointman360.com'
 
 export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Promise<WaitlistState> {
   const email = String(formData.get('email') ?? '').trim().toLowerCase()
@@ -39,15 +39,15 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
     // Confirmation email. Failure here should not block the signup itself --
     // the contact is already saved either way.
     const { error: sendError } = await resend.emails.send({
-      from: `Field Ready <${FROM_EMAIL}>`,
+      from: `Pointman360 <${FROM_EMAIL}>`,
       to: email,
-      subject: "You're on the Field Ready waitlist",
+      subject: "You're on the Pointman360 waitlist",
       text: [
         "You're on the waitlist for Family Readiness OS.",
         '',
         "We'll email you the moment it's ready, with your 25% launch discount already reserved.",
         '',
-        '-- Field Ready Co.',
+        '-- Pointman360',
       ].join('\n'),
     })
 
